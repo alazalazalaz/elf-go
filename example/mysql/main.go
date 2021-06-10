@@ -8,7 +8,7 @@ import (
 
 func main(){
 	path := "conf.yaml"
-	if err := config.InitConfig(path); err != nil{
+	if err := config.NewConfig(path); err != nil{
 		logs.Error("init config failed:", logs.Content{"err": err})
 	}
 
