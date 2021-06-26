@@ -8,19 +8,29 @@ import (
 	"gorm.io/gorm"
 )
 
-func NewMysql(conf config.ConfMysql) (*gorm.DB, error){
-	host := conf.Ip
-	port := conf.Port
-	user := conf.User
-	pw := conf.Password
-	dbName := conf.Db
+type Mysql struct{
+	Conf config.ConfMysql
+	*gorm.DB
+}
+
+func New(c *config.Config)*Mysql{
+	return &Mysql{
+		Conf: c.GetMysqlConfig(),
+	}
+}
+
+func(m *Mysql) Init()error{
+	host := m.Conf.Ip
+	port := m.Conf.Port
+	user := m.Conf.User
+	pw := m.Conf.Password
+	dbName := m.Conf.Db
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", user, pw, host, port, dbName)
 	logs.Info("mysql info :" + dsn)
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil {
-		return nil, err
-	}
-	return db, nil
+	var err error
+	m.DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	return err
 }
+
 
