@@ -15,10 +15,22 @@ func init() {
 
 	// 设置日志级别为InfoLevel以上
 	logrus.SetLevel(logrus.InfoLevel)
-
 }
 
 type Content map[string]interface{}
+
+
+func SetLevel(l logrus.Level){
+	logrus.SetLevel(l)
+}
+
+func Debug(s string, contentSlice ...Content){
+	content := Content{}
+	if len(contentSlice) > 0{
+		content = contentSlice[0]
+	}
+	logrus.WithFields(logrus.Fields(content)).Debug(s)
+}
 
 func Info(s string, contentSlice ...Content){
 	content := Content{}

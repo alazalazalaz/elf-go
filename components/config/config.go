@@ -48,3 +48,7 @@ func(c *Config) GetRedisConfig() ConfRedis{
 func(c *Config) GetMysqlConfig() ConfMysql{
 	return c.C.Mysql
 }
+
+func (c *Config) GetSysConfig() ConfSys{
+	return c.C.Sys
+}

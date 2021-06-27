@@ -69,7 +69,7 @@ func (m *Mysql) formatDsn(item config.ConfMysqlItem) string{
 	pw := item.Password
 	dbName := item.Db
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", user, pw, host, port, dbName)
-	logs.Info("mysql info :" + dsn)
+	logs.Debug("mysql info :" + dsn)
 	return dsn
 }
 
