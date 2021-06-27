@@ -11,7 +11,7 @@ import (
 //2.新增redis集群
 func main(){
 	//初始化配置文件
-	app.Config().SetConfigFilePath("conf.yaml")
+	app.Config().SetConfigFilePath("conf.yml")
 	if err:= app.Config().Init(); err != nil{
 		logs.Error(err.Error(), nil)
 	}

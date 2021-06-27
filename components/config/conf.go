@@ -10,7 +10,14 @@ type ConfRedis struct{
 	Port int
 }
 
-type ConfMysql struct{
+type ConfMysql map[string]ConfMysqlDb
+
+type ConfMysqlDb struct{
+	Master []ConfMysqlItem
+	Slaver []ConfMysqlItem
+}
+
+type ConfMysqlItem struct{
 	Ip string
 	Port int
 	User string

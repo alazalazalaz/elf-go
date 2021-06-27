@@ -10,7 +10,7 @@ import (
 
 //没有dig的版本
 //func main(){
-//	path := "conf.yaml"
+//	path := "conf.yml"
 //	if err := config.NewConfig(path); err != nil{
 //		logs.Error("init config failed:", logs.Content{"err": err})
 //	}
@@ -27,7 +27,7 @@ import (
 func main(){
 	container := dig.New()
 
-	path := "conf.yaml"
+	path := "conf.yml"
 	container.Provide(config.NewConfig(path))
 	container.Provide(config.GetRedisConfig)
 	container.Provide(redis.NewRedis)

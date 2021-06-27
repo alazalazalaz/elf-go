@@ -24,7 +24,7 @@ func New() *Config{
 
 func(c *Config) Init() error {
 	v := viper.New()
-	v.SetConfigType("yaml")
+	v.SetConfigType("yml")
 	v.SetConfigFile(c.confPath)
 	if err := v.ReadInConfig(); err != nil {
 		return err
