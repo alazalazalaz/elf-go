@@ -40,10 +40,18 @@ func Info(s string, contentSlice ...Content){
 	logrus.WithFields(logrus.Fields(content)).Info(s)
 }
 
-func Warning(s string, content Content){
+func Warning(s string, contentSlice ...Content){
+	content := Content{}
+	if len(contentSlice) > 0{
+		content = contentSlice[0]
+	}
 	logrus.WithFields(logrus.Fields(content)).Warning(s)
 }
 
-func Error(s string, content Content){
+func Error(s string, contentSlice ...Content){
+	content := Content{}
+	if len(contentSlice) > 0{
+		content = contentSlice[0]
+	}
 	logrus.WithFields(logrus.Fields(content)).Error(s)
 }

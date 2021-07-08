@@ -11,6 +11,7 @@ type Framework struct{
 	Conf *config.ConfSys
 }
 
+//初始化
 func Init(configFilePath string) error {
 	//初始化配置文件
 	app.Config().SetConfigFilePath(configFilePath)
@@ -27,6 +28,7 @@ func Init(configFilePath string) error {
 
 	return nil
 }
+
 
 func initSys() error {
 	sysConfig := app.Config().GetSysConfig()

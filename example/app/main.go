@@ -16,6 +16,7 @@ func main(){
 		logs.Error(err.Error(), nil)
 	}
 
+
 	//初始化mysql
 	logs.Info("mysql before init", logs.Content{"mysql:": app.Mysql().DB})
 	if err := app.Mysql().Init(); err != nil{
