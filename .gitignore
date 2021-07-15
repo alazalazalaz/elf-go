@@ -1,1 +1,5 @@
 .idea
+example/newversion_test/new_inner/db/*
+!example/newversion_test/new_inner/db/.gitkeep
+example/newversion_test/new_inner/download/*
+!example/newversion_test/new_inner/download/.gitkeep
