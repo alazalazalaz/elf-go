@@ -3,8 +3,10 @@ package main
 import (
 	"elf-go/app"
 	"elf-go/components/logs"
+	"elf-go/example/app/route"
 	"elf-go/framework"
-	"os"
+	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func main(){
@@ -16,7 +18,6 @@ func main(){
 		logs.Error(err.Error(), nil)
 	}
 
-
 	//初始化mysql
 	logs.Info("mysql before init", logs.Content{"mysql:": app.Mysql().DB})
 	if err := app.Mysql().Init(); err != nil{
@@ -24,6 +25,13 @@ func main(){
 	}
 	logs.Info("mysql after init", logs.Content{"mysql:": app.Mysql().DB})
 
-	os.Exit(0)
+	//启动服务
+	engine := gin.New()
+
+	route.InitRoute(engine)
+
+	if err := http.ListenAndServe(":7070", engine); err != nil{
+		logs.Error(err.Error())
+	}
 }
 
