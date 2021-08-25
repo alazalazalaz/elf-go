@@ -11,7 +11,7 @@ import (
 
 func main(){
 	//初始化框架
-	framework.Init("conf.yml")
+	framework.Init("example/app/config/conf.yml")
 
 	//初始化redis
 	if err := app.Redis().Init(); err != nil{
