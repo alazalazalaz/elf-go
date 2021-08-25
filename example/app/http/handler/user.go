@@ -7,30 +7,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//
-//type UserAndArticle struct{
-//	Id int `json:"id"`
-//	Username string `json:"username"`
-//	CreatedAt int `json:"created_at"`
-//	ArticleInfo entity.Article `gorm:"foreignkey:Id"`
-//	//ArticleInfo entity.Article
-//}
-
-type Article struct{
-	Id int `json:"id" gorm:"primary_key"`
-	Uid int `json:"uid"`
-	Title string `json:"title"`
-	CreatedAt int `json:"created_at"`
-	UserInfo entity.User `gorm:"foreignkey:articles_ibfk_1"`
-}
 
 func GetUserInfo(ctx *gin.Context){
 	logs.Info("get user info")
-	article := Article{}
-	app.Mysql().Find(&article)
-	//app.Mysql().Table("article as a").Joins("left join user as u on u.id=a.uid").
-	//	Where("a.id>?", 0).Find(&article)
-	logs.Info("result: ", logs.Content{"article:": article})
+	var u entity.User
+	app.Mysql().Preload("Article").Find(&u)
+	logs.Info("result: ", logs.Content{"article:": u})
+	ctx.JSON(200, u)
 }
 
 func Version(ctx *gin.Context){
