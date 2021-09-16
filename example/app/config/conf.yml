@@ -1,6 +1,7 @@
 #系统配置
 sys:
   debug: true
+  listenPort: 7070
 #配置文件
 redis:
   ip: 127.0.0.1

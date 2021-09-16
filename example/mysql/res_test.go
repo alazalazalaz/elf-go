@@ -8,8 +8,7 @@ import (
 	"os"
 )
 
-
-func main(){
+func main() {
 	dsn0 := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", "root", "123456", "127.0.0.1", 3306, "test")
 	dsn1 := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", "root", "123456", "127.0.0.1", 3306, "test1")
 	dsn2 := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", "root", "123456", "127.0.0.1", 3306, "test2")
@@ -32,14 +31,14 @@ func main(){
 		os.Exit(1)
 	}
 
-	for i:= 0; i<10; i++{
+	for i := 0; i < 10; i++ {
 		var user User
 		db.Where("id=?", 10).Find(&user)
 		fmt.Println(user)
 	}
 
 	db2, _ := gorm.Open(mysql.Open(dsn0), &gorm.Config{})
-	for i:= 0; i<10; i++{
+	for i := 0; i < 10; i++ {
 		var user User
 		db2.Where("id=?", 10).Find(&user)
 		fmt.Println(user)

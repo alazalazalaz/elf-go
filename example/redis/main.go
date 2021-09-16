@@ -24,7 +24,7 @@ import (
 //}
 
 //新增dig版本
-func main(){
+func main() {
 	container := dig.New()
 
 	path := "conf.yml"
@@ -33,6 +33,6 @@ func main(){
 	container.Provide(redis.NewRedis)
 
 	container.Invoke(func(redisClient *goredis.Client) {
-		redisClient.Set("test", 1233333, time.Second * 50)
+		redisClient.Set("test", 1233333, time.Second*50)
 	})
 }

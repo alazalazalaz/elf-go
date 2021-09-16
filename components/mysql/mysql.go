@@ -9,21 +9,21 @@ import (
 	"gorm.io/plugin/dbresolver"
 )
 
-type Mysql struct{
+type Mysql struct {
 	Conf config.ConfMysql
 	*gorm.DB
 }
 
-func New(c *config.Config)*Mysql{
+func New(c *config.Config) *Mysql {
 	return &Mysql{
 		Conf: c.GetMysqlConfig(),
 	}
 }
 
-func(m *Mysql) Init()error{
+func (m *Mysql) Init() error {
 	dsn := m.formatDsn(m.Conf["default"].Master[0])
 	var err error
-	if m.DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{}); err != nil{
+	if m.DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{}); err != nil {
 		return err
 	}
 
@@ -33,24 +33,24 @@ func(m *Mysql) Init()error{
 //初始化多db和主从
 func (m *Mysql) initClauses() error {
 	var res dbresolver.DBResolver
-	for dbName := range m.Conf{
+	for dbName := range m.Conf {
 		var masterDBs []gorm.Dialector
-		for _, configMysqlItem := range m.Conf[dbName].Master{
+		for _, configMysqlItem := range m.Conf[dbName].Master {
 			masterDBs = append(masterDBs, mysql.Open(m.formatDsn(configMysqlItem)))
 		}
 		var slaverDBs []gorm.Dialector
-		for _, configMysqlItem := range m.Conf[dbName].Slaver{
+		for _, configMysqlItem := range m.Conf[dbName].Slaver {
 			slaverDBs = append(slaverDBs, mysql.Open(m.formatDsn(configMysqlItem)))
 		}
 
 		con := dbresolver.Config{
-			Sources: masterDBs,
+			Sources:  masterDBs,
 			Replicas: slaverDBs,
-			Policy: dbresolver.RandomPolicy{},
+			Policy:   dbresolver.RandomPolicy{},
 		}
 		if dbName == "default" {
 			res.Register(con)
-		}else{
+		} else {
 			res.Register(con, dbName)
 		}
 	}
@@ -62,7 +62,7 @@ func (m *Mysql) initClauses() error {
 	return nil
 }
 
-func (m *Mysql) formatDsn(item config.ConfMysqlItem) string{
+func (m *Mysql) formatDsn(item config.ConfMysqlItem) string {
 	host := item.Ip
 	port := item.Port
 	user := item.User
@@ -72,4 +72,3 @@ func (m *Mysql) formatDsn(item config.ConfMysqlItem) string{
 	logs.Debug("mysql info :" + dsn)
 	return dsn
 }
-
