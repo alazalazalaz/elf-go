@@ -27,15 +27,15 @@ func (User) TableName() string{
 
 func main(){
 	//初始化配置文件
-	app.Config().SetConfigFilePath("conf.yml")
+	app.Config().SetConfigFilePath("example/config/conf.yml")
 	if err:= app.Config().Init(); err != nil{
 		logs.Error(err.Error(), nil)
 	}
 
 	//初始化redis
-	if err := app.Redis().Init(); err != nil{
-		logs.Error(err.Error(), nil)
-	}
+	//if err := app.Redis().Init(); err != nil{
+	//	logs.Error(err.Error(), nil)
+	//}
 
 	//初始化mysql
 	//读操作默认使用从库
@@ -44,7 +44,13 @@ func main(){
 	if err := db.Init(); err != nil{
 		logs.Error(err.Error(), nil)
 	}
+
+
 	for i:=0; i<10; i++{
+		re := db.Model(&User{}).Where("id=?", 10).Updates(User{Username: "up"})
+		fmt.Println(re.RowsAffected)
+		fmt.Println(re.Error)
+
 		var user User
 		db.Where("id=?", 10).Find(&user)
 		fmt.Println(user)

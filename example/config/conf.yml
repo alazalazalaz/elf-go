@@ -27,7 +27,7 @@ mysql:
         port: 3306
         user: root
         password: 123456
-        db: test2
+        db: test
   backend:
     master: #主库
       - #可以配置多个主库
