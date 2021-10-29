@@ -4,6 +4,7 @@ import (
 	"elf-go/app"
 	"elf-go/components/logs"
 	"elf-go/example/app/dao/entity"
+	"elf-go/example/app/http/response"
 	"github.com/gin-gonic/gin"
 	"time"
 )
@@ -24,10 +25,19 @@ func GetUserInfo(ctx *gin.Context) {
 }
 
 func Version(ctx *gin.Context) {
-	logs.Info("version")
-	ctx.JSON(200, "version")
+	logs.Infof("version")
+	ver := struct {
+		Version string
+	}{Version: "0.0.1"}
+	ctx.JSON(200, ver)
 }
 
 func Update(ctx *gin.Context) {
-	logs.Warning("update")
+	logs.Warningf("update")
+
+	success := response.Success{
+		Code: 200,
+		Msg: "success",
+	}
+	ctx.JSON(200, success)
 }
