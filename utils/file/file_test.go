@@ -8,13 +8,13 @@ import (
 func TestScanDir(t *testing.T) {
 	dirname := "../../"
 	files, err := ScanDir(dirname)
-	for _, v := range files{
+	for _, v := range files {
 		fmt.Println(v)
 	}
 	fmt.Println(err)
-Exist("f")
+	Exist("f")
 	files2, err := ScanDirRecursion(dirname)
-	for _, v := range files2{
+	for _, v := range files2 {
 		fmt.Println(v)
 	}
 	fmt.Println(err)

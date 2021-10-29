@@ -7,25 +7,25 @@ import (
 	"fmt"
 )
 
-type User struct{
-	Id int `gorm:"primary_key;AUTO_INCREMENT;column:id" json:"id"`
-	Phone int64
-	Username string
-	Password string
-	ClassId int
+type User struct {
+	Id        int `gorm:"primary_key;AUTO_INCREMENT;column:id" json:"id"`
+	Phone     int64
+	Username  string
+	Password  string
+	ClassId   int
 	ClassName string
-	IdCard string
-	Level int
-	Status int
+	IdCard    string
+	Level     int
+	Status    int
 	SchoolNum int
 	CreatedAt int
 }
 
-func (User) TableName() string{
+func (User) TableName() string {
 	return "t_user"
 }
 
-func main(){
+func main() {
 	//初始化配置文件
 	app.Config().SetConfigFilePath("example/config/conf.yml")
 	if err:= app.Config().Init(); err != nil{
@@ -41,7 +41,7 @@ func main(){
 	//读操作默认使用从库
 	//写操作默认使用主库
 	db := app.Mysql()
-	if err := db.Init(); err != nil{
+	if err := db.Init(); err != nil {
 		logs.Error(err.Error(), nil)
 	}
 
@@ -62,10 +62,9 @@ func main(){
 	//使用其他db
 	//db.Clauses(dbresolver.Use("backend")).Find(&user)
 
-
 }
 
-func  _format(item config.ConfMysqlItem) string{
+func _format(item config.ConfMysqlItem) string {
 	host := item.Ip
 	port := item.Port
 	user := item.User

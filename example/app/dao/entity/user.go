@@ -1,13 +1,15 @@
 package entity
 
-type User struct{
-	Id int `json:"id" gorm:"primary_key"`
-	Username string `json:"username"`
-	CreatedAt int64 `json:"created_at"`
+type User struct {
+	ID        int `gorm:"primary_key"`
+	Username  string
+	CreatedAt int64
+	Article   Article `gorm:"foreignkey:UserID"` //关联查询的案例，mysql不需要建立外键，这里指定就行
 }
 
-type Article struct{
-	Id int `json:"id"`
-	Title string `json:"title"`
-	CreatedAt int64 `json:"created_at"`
+type Article struct {
+	ID        int `gorm:"primary_key"`
+	UserID    int
+	Title     string
+	CreatedAt int
 }

@@ -5,7 +5,7 @@ import (
 	"elf-go/components/logs"
 )
 
-func main(){
+func main() {
 	path := "conf.yml"
 	app.Config().SetConfigFilePath(path)
 	if err := app.Config().Init(); err != nil {
@@ -13,9 +13,9 @@ func main(){
 	}
 
 	logs.Info("config:", logs.Content{"config:": app.Config().C})
-	if app.Config().GetSysConfig().Debug == true{
+	if app.Config().GetSysConfig().Debug == true {
 		logs.Info("debug==true")
-	}else{
+	} else {
 		logs.Info("debug==false")
 	}
 }

@@ -5,8 +5,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-
-type Config struct{
+type Config struct {
 	//配置文件路径
 	confPath string
 
@@ -14,15 +13,14 @@ type Config struct{
 	C Conf
 }
 
-func New() *Config{
+func New() *Config {
 	return &Config{
 		confPath: "",
-		C: Conf{},
+		C:        Conf{},
 	}
 }
 
-
-func(c *Config) Init() error {
+func (c *Config) Init() error {
 	v := viper.New()
 	v.SetConfigType("yml")
 	v.SetConfigFile(c.confPath)
@@ -30,25 +28,25 @@ func(c *Config) Init() error {
 		return err
 	}
 
-	if err := v.Unmarshal(&c.C); err != nil{
+	if err := v.Unmarshal(&c.C); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func(c *Config) SetConfigFilePath(p string){
+func (c *Config) SetConfigFilePath(p string) {
 	c.confPath = p
 }
 
-func(c *Config) GetRedisConfig() ConfRedis{
+func (c *Config) GetRedisConfig() ConfRedis {
 	return c.C.Redis
 }
 
-func(c *Config) GetMysqlConfig() ConfMysql{
+func (c *Config) GetMysqlConfig() ConfMysql {
 	return c.C.Mysql
 }
 
-func (c *Config) GetSysConfig() ConfSys{
+func (c *Config) GetSysConfig() ConfSys {
 	return c.C.Sys
 }

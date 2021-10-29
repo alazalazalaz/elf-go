@@ -4,9 +4,12 @@
 ##@todo list
 //0. 新增recover异常
 
-//1.新增trace id
+//1.新增trace id，有并发问题，需要修改
 
 //2.新增redis集群
+
+//3. 新增jwt
+
 //test tag
 
 ##已有功能
