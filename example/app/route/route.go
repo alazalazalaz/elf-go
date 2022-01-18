@@ -15,4 +15,5 @@ func InitRoute(router *gin.Engine) {
 	router.GET("/get-user-info", handler.GetUserInfo)
 	router.GET("/version", handler.Version)
 	router.POST("/update", handler.Update)
+	router.GET("/panic", handler.Panic)
 }

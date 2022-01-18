@@ -37,7 +37,12 @@ func Update(ctx *gin.Context) {
 
 	success := response.Success{
 		Code: 200,
-		Msg: "success",
+		Msg:  "success",
 	}
 	ctx.JSON(200, success)
+}
+
+func Panic(ctx *gin.Context) {
+	logs.Warningf("即将panic")
+	panic("手动panic")
 }
