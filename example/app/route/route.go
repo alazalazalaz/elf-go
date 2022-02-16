@@ -13,8 +13,16 @@ func InitRoute(router *gin.Engine) {
 
 	router.GET("/", handler.Info)
 	router.GET("/info", handler.Info)
-	router.GET("/get-user-info", handler.GetUserInfo)
+	router.GET("/slow-query", handler.SlowQuery)
 	router.GET("/version", handler.Version)
-	router.POST("/update", handler.Update)
 	router.GET("/panic", handler.Panic)
+
+	// select
+	router.GET("/select", handler.Select)
+	// create
+	router.GET("/create", handler.Create)
+	// update
+	router.GET("/update", handler.Update)
+	// save
+	router.GET("/save", handler.Save)
 }

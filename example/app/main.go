@@ -3,6 +3,7 @@ package main
 import (
 	"elf-go/app"
 	"elf-go/components/logs"
+	"elf-go/example/app/dao/plugin"
 	"elf-go/example/app/route"
 	"elf-go/framework"
 	"fmt"
@@ -25,6 +26,11 @@ func main() {
 		logs.Error(err.Error(), nil)
 	}
 	logs.Info("mysql after init", logs.Content{"mysql:": app.Mysql().DB})
+
+	// 初始化mysql的Hook
+	if err := app.Mysql().Use(&plugin.BeforeAfterPlugin{}); err != nil {
+		logs.Errorf("init gorm plugin failed, err:%v", err)
+	}
 
 	//启动服务
 	engine := gin.New()

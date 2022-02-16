@@ -64,10 +64,14 @@ mysql:
         db: test4
 ```
 
+支持mysql的hook，依赖gorm的hook，详见example/app/dao/plugin/plugin.go
 ###三、redis配置
 ```
 redis:
   ip: 127.0.0.1
   port: 6379
 ```
+
+###四、输出
+统一输出json，统一输出字段格式，详见utils/helper/echo.go
 
