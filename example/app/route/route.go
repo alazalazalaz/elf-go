@@ -11,6 +11,7 @@ func InitRoute(router *gin.Engine) {
 	router.Use(gin.Recovery())
 	router.Use(middleware.Cors, middleware2.PrintReqAndResp)
 
+	router.GET("/", handler.Info)
 	router.GET("/info", handler.Info)
 	router.GET("/get-user-info", handler.GetUserInfo)
 	router.GET("/version", handler.Version)

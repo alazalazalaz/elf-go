@@ -6,14 +6,18 @@ import (
 	"elf-go/example/app/dao/entity"
 	"elf-go/example/app/http/response"
 	"github.com/gin-gonic/gin"
-	"time"
 )
 
+func Metrics(ctx *gin.Context) {
+
+}
+
 func Info(ctx *gin.Context) {
-	logs.Infof("im info1")
-	time.Sleep(time.Second * 5)
-	logs.Infof("im info2")
-	ctx.JSON(200, "info")
+	var resp response.Success
+	resp.Code = 200
+	resp.Msg = "info api"
+	resp.Data = "info data"
+	ctx.JSON(200, resp)
 }
 
 func GetUserInfo(ctx *gin.Context) {
