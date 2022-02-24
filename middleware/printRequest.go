@@ -5,6 +5,7 @@ import (
 	"elf-go/utils/traceid"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"io"
 	"strings"
 	"time"
 )
@@ -15,13 +16,23 @@ func PrintReqAndResp(ctx *gin.Context) {
 	traceid.GenTraceId()
 
 	headerString := ""
-	for headerKey, headerValue := range ctx.Request.Header{
+	for headerKey, headerValue := range ctx.Request.Header {
 		headerString += fmt.Sprintf("%s:%s;", headerKey, strings.Join(headerValue, ","))
 	}
 	if err := ctx.Request.ParseForm(); err != nil {
 		logs.Errorf("PrintReqAndResp=>ParseForm error:%v", err)
 	}
-	logs.Infof(`[begin]=>ip:%s | method:%s | uri:"%s" | header:%s | form-data:%s`, ctx.Request.RemoteAddr, ctx.Request.Method, ctx.Request.RequestURI, headerString, ctx.Request.PostForm.Encode())
+
+	bodyString := ""
+	bodyBytes, err := io.ReadAll(ctx.Request.Body)
+	if err != nil {
+		logs.Errorf("Read Body Error err:%v", err)
+	} else {
+		bodyString = string(bodyBytes)
+	}
+
+	logs.Infof(`[begin]=>Remote Address:%s | Request Method:%s | Request URI:"%s" | Request Headers:%s | Form Data:%s | Body:%s`,
+		ctx.Request.RemoteAddr, ctx.Request.Method, ctx.Request.RequestURI, headerString, ctx.Request.PostForm.Encode(), bodyString)
 
 	ctx.Next()
 

@@ -25,4 +25,13 @@ func InitRoute(router *gin.Engine) {
 	router.GET("/update", handler.Update)
 	// save
 	router.GET("/save", handler.Save)
+
+	restfulController := new(handler.RestfulController)
+	restfulControllerR := router.Group("restful")
+	{
+		restfulControllerR.GET("/get", restfulController.Get)
+		restfulControllerR.PUT("/put", restfulController.Put)
+		restfulControllerR.POST("/post", restfulController.Post)
+		restfulControllerR.DELETE("/delete", restfulController.Delete)
+	}
 }
