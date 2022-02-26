@@ -16,6 +16,8 @@ func InitRoute(router *gin.Engine) {
 	router.GET("/slow-query", handler.SlowQuery)
 	router.GET("/version", handler.Version)
 	router.GET("/panic", handler.Panic)
+	router.GET("/login", handler.Login)
+	router.GET("/auth", handler.Auth)
 
 	// select
 	router.GET("/select", handler.Select)

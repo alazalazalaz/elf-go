@@ -2,6 +2,7 @@ package handler
 
 import (
 	"elf-go/app"
+	"elf-go/components/jwts"
 	"elf-go/components/logs"
 	"elf-go/example/app/dao/entity"
 	"elf-go/example/app/enum"
@@ -10,10 +11,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"time"
 )
-
-func Metrics(ctx *gin.Context) {
-
-}
 
 func Info(ctx *gin.Context) {
 	var resp response.Data
@@ -89,4 +86,19 @@ func Save(ctx *gin.Context) {
 func Panic(ctx *gin.Context) {
 	logs.Warningf("即将panic")
 	panic("手动panic")
+}
+
+func Login(ctx *gin.Context) {
+	token := jwts.CreateJwtToken(10)
+	helper.EchoSuccess(ctx, token)
+}
+
+func Auth(ctx *gin.Context) {
+	jwtString := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImV4cCI6MTY0NTg3NTI0OSwiaWF0IjoxNjQ1ODc1MTg5LCJpc3MiOiJlbGYtZnJhbWV3b3JrIn0.7ZxVVrXckFkk5AM51xOyXW9hzMnAAjqDOJxmpx1BzCg"
+	err := jwts.ParseJwtToken(jwtString)
+	if err != nil {
+		helper.EchoFailed(ctx, enum.RespDbError, "parse jwt failed:%v"+err.Error())
+		return
+	}
+	helper.EchoSuccess(ctx, nil)
 }
