@@ -33,5 +33,6 @@ func InitRoute(router *gin.Engine) {
 		restfulControllerR.PUT("/put", restfulController.Put)
 		restfulControllerR.POST("/post", restfulController.Post)
 		restfulControllerR.DELETE("/delete", restfulController.Delete)
+		restfulControllerR.POST("/file", restfulController.File)
 	}
 }

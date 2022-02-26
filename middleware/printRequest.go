@@ -5,7 +5,6 @@ import (
 	"elf-go/utils/traceid"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"io"
 	"strings"
 	"time"
 )
@@ -23,16 +22,16 @@ func PrintReqAndResp(ctx *gin.Context) {
 		logs.Errorf("PrintReqAndResp=>ParseForm error:%v", err)
 	}
 
-	bodyString := ""
-	bodyBytes, err := io.ReadAll(ctx.Request.Body)
-	if err != nil {
-		logs.Errorf("Read Body Error err:%v", err)
-	} else {
-		bodyString = string(bodyBytes)
-	}
+	//bodyString := ""
+	//bodyBytes, err := io.ReadAll(ctx.Request.Body)//注意这里读取了body之后，ctx.Request.Body就为空了哟。
+	//if err != nil {
+	//	logs.Errorf("Read Body Error err:%v", err)
+	//} else {
+	//	bodyString = string(bodyBytes)
+	//}
 
-	logs.Infof(`[begin]=>Remote Address:%s | Request Method:%s | Request URI:"%s" | Request Headers:%s | Form Data:%s | Body:%s`,
-		ctx.Request.RemoteAddr, ctx.Request.Method, ctx.Request.RequestURI, headerString, ctx.Request.PostForm.Encode(), bodyString)
+	logs.Infof(`[begin]=>Remote Address:%s | Request Method:%s | Request URI:"%s" | Request Headers:%s | Form Data:%s`,
+		ctx.Request.RemoteAddr, ctx.Request.Method, ctx.Request.RequestURI, headerString, ctx.Request.PostForm.Encode())
 
 	ctx.Next()
 
