@@ -17,7 +17,10 @@ func InitRoute(router *gin.Engine) {
 	router.GET("/version", handler.Version)
 	router.GET("/panic", handler.Panic)
 	router.GET("/login", handler.Login)
-	router.GET("/auth", handler.Auth)
+
+	authRouter := router.Group("auth")
+	authRouter.Use(middleware2.ParseJwt)
+	authRouter.GET("", handler.Auth)
 
 	// select
 	router.GET("/select", handler.Select)
@@ -37,4 +40,5 @@ func InitRoute(router *gin.Engine) {
 		restfulControllerR.DELETE("/delete", restfulController.Delete)
 		restfulControllerR.POST("/file", restfulController.File)
 	}
+
 }

@@ -1,7 +1,8 @@
 package jwts
 
 import (
-	"elf-go/components/logs"
+	"errors"
+	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"time"
 )
@@ -13,7 +14,7 @@ type MyClaim struct {
 
 const JWT_KID = "INSD9HJ3NF"
 
-func CreateJwtToken(id int) string {
+func CreateJwtToken(id int) (string, error) {
 	standardClaim := jwt.StandardClaims{
 		ExpiresAt: time.Now().Unix() + 60,
 		IssuedAt:  time.Now().Unix(),
@@ -26,13 +27,16 @@ func CreateJwtToken(id int) string {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, mc)
+	if token == nil {
+		return "", errors.New("token is nil")
+	}
+
 	jwtString, err := token.SignedString([]byte(JWT_KID))
 	if err != nil {
-		logs.Errorf("token SignedString err:%v", err)
+		return "", err
 	}
-	logs.Infof("elf create JWT token success :%s", jwtString)
 
-	return jwtString
+	return jwtString, nil
 }
 
 func ParseJwtToken(jwtString string) error {
@@ -40,10 +44,18 @@ func ParseJwtToken(jwtString string) error {
 		return []byte(JWT_KID), nil
 	})
 
-	if c, ok := token.Claims.(*MyClaim); ok && token.Valid {
-		logs.Infof("elf parse JWT token success, expire at:%v", c.ExpiresAt)
+	if err != nil {
+		return err
+	}
+
+	if token == nil {
+		return errors.New("token is nil pointer")
+	}
+
+	if _, ok := token.Claims.(*MyClaim); ok && token.Valid {
+		//logs.Infof("elf parse JWT token success, expire at:%v", c.ExpiresAt)
 	} else {
-		logs.Errorf("elf parse JWT token error, err:%v", err)
+		return errors.New(fmt.Sprintf("elf parse JWT token error, err:%v", err))
 	}
 
 	return err

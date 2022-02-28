@@ -8,8 +8,7 @@
 
 //2.新增redis集群
 
-//3. 新增jwt
-
+// 3. printRequest中间件打印输出
 //test tag
 
 ##已有功能
@@ -75,3 +74,20 @@ redis:
 ###四、输出
 统一输出json，统一输出字段格式，详见utils/helper/echo.go
 
+###五、JWT
+支持JWT标准使用，使用方法：
+
+#### 生成JWT
+生成JWT方法如下：
+1. 调用`jwts.CreateJwtToken(map[string]interface{})`方法即可。@todo参数支持map[string]interface{}
+
+#### 解析JWT
+```golang
+authRouter := router.Group("auth")//创建一个需要JWT认证的group
+authRouter.Use(middleware2.ParseJwt)//引入JWT中间件
+authRouter.GET("", handler.Auth)//将需要JWT认证的路由都挂载到该group下
+```
+
+`middleware2.ParseJwt`中间件做了以下操作来判断是否认证通过：
+1. 读取请求header中的`Authorization`的值，去掉值中`Bearer `前缀，后面的值为待验证的JWT token。
+2. 用公钥解析token，通过即可。

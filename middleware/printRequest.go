@@ -16,7 +16,7 @@ func PrintReqAndResp(ctx *gin.Context) {
 
 	headerString := ""
 	for headerKey, headerValue := range ctx.Request.Header {
-		headerString += fmt.Sprintf("%s:%s;", headerKey, strings.Join(headerValue, ","))
+		headerString += fmt.Sprintf("%s:%s; ", headerKey, strings.Join(headerValue, ","))
 	}
 	if err := ctx.Request.ParseForm(); err != nil {
 		logs.Errorf("PrintReqAndResp=>ParseForm error:%v", err)

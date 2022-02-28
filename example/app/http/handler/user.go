@@ -89,16 +89,16 @@ func Panic(ctx *gin.Context) {
 }
 
 func Login(ctx *gin.Context) {
-	token := jwts.CreateJwtToken(10)
+	token, err := jwts.CreateJwtToken(10)
+	if err != nil {
+		helper.EchoFailed(ctx, enum.RespGenJWTError, err.Error())
+		return
+	}
+
 	helper.EchoSuccess(ctx, token)
 }
 
 func Auth(ctx *gin.Context) {
-	jwtString := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImV4cCI6MTY0NTg3NTI0OSwiaWF0IjoxNjQ1ODc1MTg5LCJpc3MiOiJlbGYtZnJhbWV3b3JrIn0.7ZxVVrXckFkk5AM51xOyXW9hzMnAAjqDOJxmpx1BzCg"
-	err := jwts.ParseJwtToken(jwtString)
-	if err != nil {
-		helper.EchoFailed(ctx, enum.RespDbError, "parse jwt failed:%v"+err.Error())
-		return
-	}
+	logs.Infof("auth SUCCESS action")
 	helper.EchoSuccess(ctx, nil)
 }
