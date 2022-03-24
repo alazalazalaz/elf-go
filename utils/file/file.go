@@ -6,6 +6,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"path"
 	"path/filepath"
@@ -152,4 +153,20 @@ func ScanDirRecursion(dirname string) ([]string, error) {
 		}
 	}
 	return files, nil
+}
+
+func DownloadFile(remoteFilePath string) ([]byte, error) {
+	// Get the data
+	resp, err := http.Get(remoteFilePath)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	data, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
 }

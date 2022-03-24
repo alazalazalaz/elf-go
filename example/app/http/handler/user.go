@@ -98,6 +98,12 @@ func Login(ctx *gin.Context) {
 	helper.EchoSuccess(ctx, token)
 }
 
+func Sleep(ctx *gin.Context) {
+	time.Sleep(9 * time.Second)
+
+	helper.EchoSuccess(ctx, "")
+}
+
 func Auth(ctx *gin.Context) {
 	logs.Infof("auth SUCCESS action")
 	helper.EchoSuccess(ctx, nil)

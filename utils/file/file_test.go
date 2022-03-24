@@ -1,6 +1,7 @@
 package file
 
 import (
+	"elf-go/components/logs"
 	"fmt"
 	"testing"
 )
@@ -18,4 +19,17 @@ func TestScanDir(t *testing.T) {
 		fmt.Println(v)
 	}
 	fmt.Println(err)
+}
+
+func TestDownloadFile(t *testing.T) {
+
+	//imgUrl := "https://www.twle.cn/static/i/img1.jpg"
+	imgUrl := "https://api.paypal.com/v1/notifications/certs/CERT-360caa42-fca2a594-2f1e8d33"
+	data, err := DownloadFile(imgUrl)
+	if err != nil {
+		logs.Errorf("download file error, err:%v", err)
+		return
+	}
+
+	logs.Infof("download success, data:%s", string(data))
 }
