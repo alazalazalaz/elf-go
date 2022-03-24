@@ -6,6 +6,10 @@ sys:
 redis:
   ip: 127.0.0.1
   port: 6379
+#logrus日志
+logrus:
+  level: 1
+  WriteToFilePath: /Users/zhangxiong/work/logs/elf.log
 #数据库配置，支持多db，多主从
 mysql:
   default:

@@ -18,6 +18,7 @@ func InitRoute(router *gin.Engine) {
 	router.GET("/panic", handler.Panic)
 	router.GET("/login", handler.Login)
 	router.POST("/sleep", handler.Sleep)
+	router.GET("/loop", handler.Loop)
 
 	authRouter := router.Group("auth")
 	authRouter.Use(middleware2.ParseJwt)

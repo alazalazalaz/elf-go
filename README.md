@@ -16,9 +16,7 @@
 ####1、配置调试模式
 设置`debug: true`或者`false`可开启关闭调试模式。
 
-调试模式开启后会打印所有日志(包括debug/info/warning/error等)。
-
-调试模式关闭后会只会打印info/warning/error日志。
+调试模式暂时无实际功能。
 
 ###二、mysql配置
 支持多db、多主从。
@@ -91,3 +89,12 @@ authRouter.GET("", handler.Auth)//将需要JWT认证的路由都挂载到该grou
 `middleware2.ParseJwt`中间件做了以下操作来判断是否认证通过：
 1. 读取请求header中的`Authorization`的值，去掉值中`Bearer `前缀，后面的值为待验证的JWT token。
 2. 用公钥解析token，通过即可。
+
+###六、log
+log配置，可增加如下`yaml`配置来管理日志。
+```yaml
+#logrus日志
+logrus:
+  level: 1 #设定日志等级,详见logrus.Level，非正常值会默认level=logrus.InfoLevel
+  WriteToFilePath: /Users/zhangxiong/work/logs/elf.log # 输出到文件，配置为空则不输出到文件
+```

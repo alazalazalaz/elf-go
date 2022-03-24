@@ -50,3 +50,7 @@ func (c *Config) GetMysqlConfig() ConfMysql {
 func (c *Config) GetSysConfig() ConfSys {
 	return c.C.Sys
 }
+
+func (c *Config) GetLogrusConfig() ConfLogrus {
+	return c.C.Logrus
+}

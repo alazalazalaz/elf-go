@@ -13,7 +13,10 @@ import (
 
 func main() {
 	//初始化框架
-	framework.Init("example/app/config/conf.yml")
+	if err := framework.Init("example/app/config/conf.yml"); err != nil {
+		logs.Errorf("framework init failed:%v", err)
+		panic("")
+	}
 
 	//初始化redis
 	if err := app.Redis().Init(); err != nil {

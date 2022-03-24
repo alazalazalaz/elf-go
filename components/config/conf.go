@@ -1,9 +1,12 @@
 package config
 
+import "github.com/sirupsen/logrus"
+
 type Conf struct {
-	Sys   ConfSys
-	Redis ConfRedis
-	Mysql ConfMysql
+	Sys    ConfSys
+	Redis  ConfRedis
+	Mysql  ConfMysql
+	Logrus ConfLogrus
 }
 
 //系统配置
@@ -20,6 +23,12 @@ type ConfRedis struct {
 
 //mysql配置
 type ConfMysql map[string]ConfMysqlDb
+
+//logrus配置
+type ConfLogrus struct {
+	Level           logrus.Level
+	WriteToFilePath string
+}
 
 type ConfMysqlDb struct {
 	Master []ConfMysqlItem

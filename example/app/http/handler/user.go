@@ -104,6 +104,17 @@ func Sleep(ctx *gin.Context) {
 	helper.EchoSuccess(ctx, "")
 }
 
+func Loop(ctx *gin.Context) {
+	go func() {
+		for i := 10; i > 0; i-- {
+			logs.Infof("loop data i :%v", i)
+			time.Sleep(time.Millisecond * 500)
+		}
+	}()
+
+	helper.EchoSuccess(ctx, "")
+}
+
 func Auth(ctx *gin.Context) {
 	logs.Infof("auth SUCCESS action")
 	helper.EchoSuccess(ctx, nil)

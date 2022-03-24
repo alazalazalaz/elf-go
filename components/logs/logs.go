@@ -18,8 +18,8 @@ func init() {
 	// 日志消息输出可以是任意的io.writer类型
 	logrus.SetOutput(os.Stdout)
 
-	// 设置日志级别为InfoLevel以上
-	logrus.SetLevel(logrus.InfoLevel)
+	// 设置日志级别为InfoLevel以上，由初始化的时候去设置
+	//logrus.SetLevel(logrus.InfoLevel)
 }
 
 type Content map[string]interface{}
