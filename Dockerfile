@@ -1,6 +1,7 @@
 FROM golang:1.14.10 AS compile
 ADD . /build
 WORKDIR /build
+ENV GO111MODULE off
 RUN CGO_ENABLED=0 go build -o app example/app/main.go
 
 FROM alpine
