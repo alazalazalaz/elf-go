@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  elf:
+    image: elf:v1
+    ports:
+      - "7070:7070"
+    environment:
+      - ENV_TEST=https://test
