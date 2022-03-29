@@ -12,8 +12,9 @@ import (
 )
 
 func main() {
+	configFile := "./config/conf.yml"
 	//初始化框架
-	if err := framework.Init("example/app/config/conf.yml"); err != nil {
+	if err := framework.Init(configFile); err != nil {
 		logs.Errorf("framework init failed:%v", err)
 		panic("")
 	}

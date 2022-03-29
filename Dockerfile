@@ -1,13 +1,12 @@
 FROM golang:1.14.10 AS compile
-ADD . /build
+ADD ../.. /build
 WORKDIR /build
-ENV GO111MODULE off
-RUN CGO_ENABLED=0 go build -o app example/app/main.go
+ENV GO111MODULE auto
+RUN CGO_ENABLED=0 go build -o application example/app/main.go
 
 FROM alpine
-COPY --from=compile /build/app /app
-
-RUN chmod +x /app
-ENTRYPOINT ["/app"]
+COPY --from=compile /build/application /application
+#chmod +x /build/app
+ENTRYPOINT ["/application"]
 
 

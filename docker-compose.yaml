@@ -1,9 +1,17 @@
 version: "3"
 
 services:
-  elf:
-    image: elf:v1
+  elf-go:
+    restart: always
+    image: alazalaz/elf-go:v1
+    container_name: elf-go
+    volumes:
+      - ./example/app/config/conf.yml:/config/conf.yml:ro
+    network_mode: bridge
     ports:
-      - "7070:7070"
-    environment:
-      - ENV_TEST=https://test
+      - 7070:7070
+    logging:
+      driver: json-file
+      options:
+        max-size: "100m"
+        max-file: "10"
