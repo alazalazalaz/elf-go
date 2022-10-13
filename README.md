@@ -2,6 +2,8 @@
 快速搭建web项目的脚手架框架，集成了gin、gorm、logrus等组件。
 
 ##@todo list
+// 将app.mysql()这种方法改为framework.mysql()
+// file.xxx()这种方法改为frameworkfile.xxx()包名
 //0. 新增recover异常
 
 //1.新增trace id，有并发问题，需要修改
