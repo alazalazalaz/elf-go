@@ -1,8 +1,8 @@
 package main
 
 import (
-	"elf-go/components/config"
-	"elf-go/components/redis"
+	"elf-go/components/appconfig"
+	"elf-go/components/appredis"
 	goredis "github.com/go-redis/redis"
 	"go.uber.org/dig"
 	"time"
@@ -28,9 +28,9 @@ func main() {
 	container := dig.New()
 
 	path := "conf.yml"
-	container.Provide(config.NewConfig(path))
-	container.Provide(config.GetRedisConfig)
-	container.Provide(redis.NewRedis)
+	container.Provide(appconfig.NewConfig(path))
+	container.Provide(appconfig.GetRedisConfig)
+	container.Provide(appredis.NewRedis)
 
 	container.Invoke(func(redisClient *goredis.Client) {
 		redisClient.Set("test", 1233333, time.Second*50)

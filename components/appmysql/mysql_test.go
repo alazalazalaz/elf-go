@@ -1,7 +1,6 @@
-package mysql
+package appmysql
 
 import (
-	"elf-go/components/logs"
 	"fmt"
 	"gorm.io/gorm"
 	"math/rand"
@@ -102,7 +101,7 @@ func _insert(db *gorm.DB) {
 		CreatedAt: int(time.Now().Unix()),
 	}
 	if err := db.Create(&userEntity).Error; err != nil {
-		logs.Error("保存数据失败啦", logs.Content{"err:": err})
+		applogs.Error("保存数据失败啦", applogs.Content{"err:": err})
 	}
-	logs.Info("执行完成", nil)
+	applogs.Info("执行完成", nil)
 }

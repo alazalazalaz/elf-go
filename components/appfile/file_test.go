@@ -1,7 +1,7 @@
-package file
+package appfile
 
 import (
-	"elf-go/components/logs"
+	"elf-go/components/applogs"
 	"fmt"
 	"testing"
 )
@@ -27,9 +27,9 @@ func TestDownloadFile(t *testing.T) {
 	imgUrl := "https://api.paypal.com/v1/notifications/certs/CERT-360caa42-fca2a594-2f1e8d33"
 	data, err := DownloadFile(imgUrl)
 	if err != nil {
-		logs.Errorf("download file error, err:%v", err)
+		applogs.Errorf("download file error, err:%v", err)
 		return
 	}
 
-	logs.Infof("download success, data:%s", string(data))
+	applogs.Infof("download success, data:%s", string(data))
 }

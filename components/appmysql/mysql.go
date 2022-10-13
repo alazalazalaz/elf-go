@@ -1,8 +1,8 @@
-package mysql
+package appmysql
 
 import (
-	"elf-go/components/config"
-	"elf-go/components/logs"
+	"elf-go/components/appconfig"
+	"elf-go/components/applogs"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -10,11 +10,11 @@ import (
 )
 
 type Mysql struct {
-	Conf config.ConfMysql
+	Conf appconfig.ConfMysql
 	*gorm.DB
 }
 
-func New(c *config.Config) *Mysql {
+func New(c *appconfig.Config) *Mysql {
 	return &Mysql{
 		Conf: c.GetMysqlConfig(),
 	}
@@ -62,13 +62,13 @@ func (m *Mysql) initClauses() error {
 	return nil
 }
 
-func (m *Mysql) formatDsn(item config.ConfMysqlItem) string {
+func (m *Mysql) formatDsn(item appconfig.ConfMysqlItem) string {
 	host := item.Ip
 	port := item.Port
 	user := item.User
 	pw := item.Password
 	dbName := item.Db
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", user, pw, host, port, dbName)
-	logs.Debug("mysql info :" + dsn)
+	applogs.Debug("mysql info :" + dsn)
 	return dsn
 }

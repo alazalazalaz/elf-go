@@ -1,17 +1,17 @@
-package redis
+package appredis
 
 import (
-	"elf-go/components/config"
+	"elf-go/components/appconfig"
 	"fmt"
 	"github.com/go-redis/redis"
 )
 
 type Redis struct {
-	Conf config.ConfRedis
+	Conf appconfig.ConfRedis
 	*redis.Client
 }
 
-func New(c *config.Config) *Redis {
+func New(c *appconfig.Config) *Redis {
 	return &Redis{
 		Conf: c.GetRedisConfig(),
 	}

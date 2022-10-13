@@ -1,36 +1,36 @@
 package app
 
 import (
-	"elf-go/components/config"
-	"elf-go/components/logs"
-	"elf-go/components/mysql"
-	"elf-go/components/redis"
+	"elf-go/components/appconfig"
+	"elf-go/components/applogs"
+	"elf-go/components/appmysql"
+	"elf-go/components/appredis"
 	"go.uber.org/dig"
 )
 
 var container = dig.New()
-var elfConf *config.Config
-var elfRedis *redis.Redis
-var elfMysql *mysql.Mysql
+var elfConf *appconfig.Config
+var elfRedis *appredis.Redis
+var elfMysql *appmysql.Mysql
 
 func init() {
 
-	if err := container.Provide(config.New); err != nil {
-		logs.Error("初始化配置文件失败：", logs.Content{"err": err})
+	if err := container.Provide(appconfig.New); err != nil {
+		applogs.Error("初始化配置文件失败：", applogs.Content{"err": err})
 	}
 
-	if err := container.Provide(redis.New); err != nil {
-		logs.Error("初始化redis失败：", logs.Content{"err": err})
+	if err := container.Provide(appredis.New); err != nil {
+		applogs.Error("初始化redis失败：", applogs.Content{"err": err})
 	}
 
-	if err := container.Provide(mysql.New); err != nil {
-		logs.Error("初始化mysql 失败: ", logs.Content{"err": err})
+	if err := container.Provide(appmysql.New); err != nil {
+		applogs.Error("初始化mysql 失败: ", applogs.Content{"err": err})
 	}
 }
 
-func Config() *config.Config {
+func Config() *appconfig.Config {
 	if elfConf == nil {
-		_ = container.Invoke(func(conf *config.Config) {
+		_ = container.Invoke(func(conf *appconfig.Config) {
 			elfConf = conf
 			return
 		})
@@ -38,9 +38,9 @@ func Config() *config.Config {
 	return elfConf
 }
 
-func Redis() *redis.Redis {
+func Redis() *appredis.Redis {
 	if elfRedis == nil {
-		_ = container.Invoke(func(redisClient *redis.Redis) {
+		_ = container.Invoke(func(redisClient *appredis.Redis) {
 			elfRedis = redisClient
 			return
 		})
@@ -48,9 +48,9 @@ func Redis() *redis.Redis {
 	return elfRedis
 }
 
-func Mysql() *mysql.Mysql {
+func Mysql() *appmysql.Mysql {
 	if elfMysql == nil {
-		_ = container.Invoke(func(mysqlClient *mysql.Mysql) {
+		_ = container.Invoke(func(mysqlClient *appmysql.Mysql) {
 			elfMysql = mysqlClient
 		})
 	}

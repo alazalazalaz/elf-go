@@ -1,7 +1,7 @@
 package plugin
 
 import (
-	"elf-go/components/logs"
+	"elf-go/components/applogs"
 	"elf-go/example/app/enum"
 	"gorm.io/gorm"
 )
@@ -71,5 +71,5 @@ func afterDelete(db *gorm.DB) {
 }
 
 func printLog(t, sql string) {
-	logs.Infof("after %s, sql:%s", t, sql)
+	applogs.Infof("after %s, sql:%s", t, sql)
 }

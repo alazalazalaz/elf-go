@@ -1,4 +1,4 @@
-package jwts
+package appjwts
 
 import (
 	"errors"

@@ -1,4 +1,4 @@
-package helper
+package apphelper
 
 import (
 	"github.com/gin-gonic/gin"

@@ -1,4 +1,4 @@
-package file
+package appfile
 
 import (
 	"archive/tar"

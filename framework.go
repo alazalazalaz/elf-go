@@ -1,10 +1,10 @@
-package framework
+package elf_go
 
 import (
 	"elf-go/app"
-	"elf-go/components/config"
-	"elf-go/components/logs"
-	"elf-go/utils/file"
+	"elf-go/components/appconfig"
+	"elf-go/components/appfile"
+	"elf-go/components/applogs"
 	"errors"
 	"github.com/sirupsen/logrus"
 	"io"
@@ -12,7 +12,7 @@ import (
 )
 
 type Framework struct {
-	Conf *config.ConfSys
+	Conf *appconfig.ConfSys
 }
 
 //初始化
@@ -20,19 +20,19 @@ func Init(configFilePath string) error {
 	//初始化配置文件
 	app.Config().SetConfigFilePath(configFilePath)
 	if err := app.Config().Init(); err != nil {
-		logs.Error(err.Error(), nil)
+		applogs.Error(err.Error(), nil)
 		return err
 	}
 
 	//初始化系统配置
 	if err := initSys(); err != nil {
-		logs.Error(err.Error(), nil)
+		applogs.Error(err.Error(), nil)
 		return err
 	}
 
 	//初始化log配置
 	if err := initLog(); err != nil {
-		logs.Error(err.Error(), nil)
+		applogs.Error(err.Error(), nil)
 		return err
 	}
 
@@ -52,18 +52,18 @@ func initSys() error {
 
 func initLog() error {
 	// 设置Log等级
-	logs.SetLevel(logrus.InfoLevel)
+	applogs.SetLevel(logrus.InfoLevel)
 	logConfig := app.Config().GetLogrusConfig()
 	for _, l := range logrus.AllLevels {
 		if l == logConfig.Level {
-			logs.SetLevel(l)
+			applogs.SetLevel(l)
 			break
 		}
 	}
 
 	//设置输出文件路径
 	if logConfig.WriteToFilePath != "" {
-		if !file.IsFile(logConfig.WriteToFilePath) {
+		if !appfile.IsFile(logConfig.WriteToFilePath) {
 			return errors.New("unknown file path from config key=WriteToFilePath,value=" + logConfig.WriteToFilePath)
 		}
 
@@ -73,7 +73,7 @@ func initLog() error {
 		}
 		mw := io.MultiWriter(os.Stdout, fileWrite)
 		logrus.SetOutput(mw)
-		logs.Infof("log will be write to file :%v", logConfig.WriteToFilePath)
+		applogs.Infof("log will be write to file :%v", logConfig.WriteToFilePath)
 	}
 
 	return nil

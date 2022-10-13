@@ -1,12 +1,12 @@
 package enum
 
-import "elf-go/utils/helper"
+import "elf-go/components/apphelper"
 
 const (
-	RespInvalidParams helper.ErrorCode = 1001
-	RespDbError       helper.ErrorCode = 1002
-	RespReadFileError helper.ErrorCode = 1003
-	RespGenJWTError   helper.ErrorCode = 1004 //生成JWT错误
+	RespInvalidParams apphelper.ErrorCode = 1001
+	RespDbError       apphelper.ErrorCode = 1002
+	RespReadFileError apphelper.ErrorCode = 1003
+	RespGenJWTError   apphelper.ErrorCode = 1004 //生成JWT错误
 
-	RespSystemError helper.ErrorCode = 500
+	RespSystemError apphelper.ErrorCode = 500
 )

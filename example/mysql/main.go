@@ -2,8 +2,6 @@ package main
 
 import (
 	"elf-go/app"
-	"elf-go/components/config"
-	"elf-go/components/logs"
 	"fmt"
 )
 
@@ -28,8 +26,8 @@ func (User) TableName() string {
 func main() {
 	//初始化配置文件
 	app.Config().SetConfigFilePath("example/config/conf.yml")
-	if err:= app.Config().Init(); err != nil{
-		logs.Error(err.Error(), nil)
+	if err := app.Config().Init(); err != nil {
+		applogs.Error(err.Error(), nil)
 	}
 
 	//初始化redis
@@ -42,11 +40,10 @@ func main() {
 	//写操作默认使用主库
 	db := app.Mysql()
 	if err := db.Init(); err != nil {
-		logs.Error(err.Error(), nil)
+		applogs.Error(err.Error(), nil)
 	}
 
-
-	for i:=0; i<10; i++{
+	for i := 0; i < 10; i++ {
 		re := db.Model(&User{}).Where("id=?", 10).Updates(User{Username: "up"})
 		fmt.Println(re.RowsAffected)
 		fmt.Println(re.Error)
@@ -64,13 +61,13 @@ func main() {
 
 }
 
-func _format(item config.ConfMysqlItem) string {
+func _format(item appconfig.ConfMysqlItem) string {
 	host := item.Ip
 	port := item.Port
 	user := item.User
 	pw := item.Password
 	dbName := item.Db
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", user, pw, host, port, dbName)
-	logs.Info("mysql info :" + dsn)
+	applogs.Info("mysql info :" + dsn)
 	return dsn
 }

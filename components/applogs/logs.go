@@ -1,7 +1,7 @@
-package logs
+package applogs
 
 import (
-	"elf-go/utils/traceid"
+	"elf-go/components/apptraceid"
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"os"
@@ -61,21 +61,21 @@ func Error(s string, contentSlice ...Content) {
 }
 
 func Debugf(format string, args ...interface{}) {
-	format = fmt.Sprintf("[%s]", traceid.TraceId) + format
+	format = fmt.Sprintf("[%s]", apptraceid.TraceId) + format
 	logrus.Infof(format, args...)
 }
 
 func Infof(format string, args ...interface{}) {
-	format = fmt.Sprintf("[%s]", traceid.TraceId) + format
+	format = fmt.Sprintf("[%s]", apptraceid.TraceId) + format
 	logrus.Infof(format, args...)
 }
 
 func Warningf(format string, args ...interface{}) {
-	format = fmt.Sprintf("[%s]", traceid.TraceId) + format
+	format = fmt.Sprintf("[%s]", apptraceid.TraceId) + format
 	logrus.Infof(format, args...)
 }
 
 func Errorf(format string, args ...interface{}) {
-	format = fmt.Sprintf("[%s]", traceid.TraceId) + format
+	format = fmt.Sprintf("[%s]", apptraceid.TraceId) + format
 	logrus.Infof(format, args...)
 }
