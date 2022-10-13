@@ -21,46 +21,25 @@
 调试模式暂时无实际功能。
 
 ###二、mysql配置
-支持多db、多主从。
+-支持多db、多主从。-
+
+数据库配置，干掉了主从模式，直接使用配置多个db的模式，有点是简单
 案例如下：
 ```
 mysql:
   default:
-    master: #主库
-      - #可以配置多个主库
-        ip: 127.0.0.1
-        port: 3306
-        user: root
-        password: 123456
-        db: test
-    slaver: #从库
-      - #可以配置多个从库
-        ip: 127.0.0.1
-        port: 3306
-        user: root
-        password: 123456
-        db: test1
-      - #可以配置多个从库
-        ip: 127.0.0.1
-        port: 3306
-        user: root
-        password: 123456
-        db: test2
-  backend:
-    master: #主库
-      - #可以配置多个主库
-        ip: 127.0.0.1
-        port: 3306
-        user: root
-        password: 123456
-        db: test3
-    slaver: #从库
-      - #可以配置多个从库
-        ip: 127.0.0.1
-        port: 3306
-        user: root
-        password: 123456
-        db: test4
+    ip: 127.0.0.1
+    port: 3306
+    user: elf2
+    password: 123456
+    db: test
+  app2:
+    ip: 127.0.0.1
+    port: 3306
+    user: elf2
+    password: 123456
+    db: test
+
 ```
 
 支持mysql的hook，依赖gorm的hook，详见example/app/dao/plugin/plugin.go

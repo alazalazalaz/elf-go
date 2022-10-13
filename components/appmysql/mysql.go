@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"gorm.io/plugin/dbresolver"
 )
 
 type Mysql struct {
@@ -20,44 +19,44 @@ func New(c *appconfig.Config) *Mysql {
 	}
 }
 
-func (m *Mysql) Init() error {
-	dsn := m.formatDsn(m.Conf["default"].Master[0])
+func (m *Mysql) TestConnection() error {
+	dsn := m.formatDsn(m.Conf["default"])
 	var err error
 	if m.DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{}); err != nil {
 		return err
 	}
 
-	return m.initClauses()
+	return nil
 }
 
 //初始化多db和主从
-func (m *Mysql) initClauses() error {
-	var res dbresolver.DBResolver
-	for dbName := range m.Conf {
-		var masterDBs []gorm.Dialector
-		for _, configMysqlItem := range m.Conf[dbName].Master {
-			masterDBs = append(masterDBs, mysql.Open(m.formatDsn(configMysqlItem)))
-		}
-		var slaverDBs []gorm.Dialector
-		for _, configMysqlItem := range m.Conf[dbName].Slaver {
-			slaverDBs = append(slaverDBs, mysql.Open(m.formatDsn(configMysqlItem)))
-		}
-
-		con := dbresolver.Config{
-			Sources:  masterDBs,
-			Replicas: slaverDBs,
-			Policy:   dbresolver.RandomPolicy{},
-		}
-		if dbName == "default" {
-			res.Register(con)
-		} else {
-			res.Register(con, dbName)
-		}
-	}
-
-	if err := m.Use(&res); err != nil {
-		return err
-	}
+func (m *Mysql) InitClauses() error {
+	//var res dbresolver.DBResolver
+	//for dbName := range m.Conf {
+	//	var masterDBs []gorm.Dialector
+	//	for _, configMysqlItem := range m.Conf[dbName].Master {
+	//		masterDBs = append(masterDBs, mysql.Open(m.formatDsn(configMysqlItem)))
+	//	}
+	//	var slaverDBs []gorm.Dialector
+	//	for _, configMysqlItem := range m.Conf[dbName].Slaver {
+	//		slaverDBs = append(slaverDBs, mysql.Open(m.formatDsn(configMysqlItem)))
+	//	}
+	//
+	//	con := dbresolver.Config{
+	//		Sources:  masterDBs,
+	//		Replicas: slaverDBs,
+	//		Policy:   dbresolver.RandomPolicy{},
+	//	}
+	//	if dbName == "default" {
+	//		res.Register(con)
+	//	} else {
+	//		res.Register(con, dbName)
+	//	}
+	//}
+	//
+	//if err := m.Use(&res); err != nil {
+	//	return err
+	//}
 
 	return nil
 }

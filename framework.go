@@ -36,6 +36,12 @@ func Init(configFilePath string) error {
 		return err
 	}
 
+	//初始化mysql主从
+	if err := initMysqlClauses(); err != nil {
+		applogs.Errorf("init initMysqlClauses() error:%v", err)
+		//return err 可以不处理这个错误
+	}
+
 	return nil
 }
 
@@ -77,4 +83,8 @@ func initLog() error {
 	}
 
 	return nil
+}
+
+func initMysqlClauses() error {
+	return app.Mysql().InitClauses()
 }

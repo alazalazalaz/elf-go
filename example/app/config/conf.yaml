@@ -10,41 +10,17 @@ redis:
 logrus:
   level: 6
 #  WriteToFilePath: /Users/zhangxiong/work/logs/elf.log
-#数据库配置，支持多db，多主从
+#数据库配置，干掉了主从模式，直接使用配置多个db的模式，有点是简单
 mysql:
   default:
-    master: #主库
-      - #可以配置多个主库
-        ip: 127.0.0.1
-        port: 3306
-        user: elf2
-        password: 123456
-        db: test
-    slaver: #从库
-      - #可以配置多个从库
-        ip: 127.0.0.1
-        port: 3306
-        user: elf2
-        password: 123456
-        db: test
-      - #可以配置多个从库
-        ip: 127.0.0.1
-        port: 3306
-        user: elf2
-        password: 123456
-        db: test
-  backend:
-    master: #主库
-      - #可以配置多个主库
-        ip: 127.0.0.1
-        port: 3306
-        user: elf2
-        password: 123456
-        db: test3
-    slaver: #从库
-      - #可以配置多个从库
-        ip: 127.0.0.1
-        port: 3306
-        user: elf2
-        password: 123456
-        db: test4
+    ip: 127.0.0.1
+    port: 3306
+    user: elf2
+    password: 123456
+    db: test
+  app2:
+    ip: 127.0.0.1
+    port: 3306
+    user: elf2
+    password: 123456
+    db: test

@@ -22,17 +22,12 @@ type ConfRedis struct {
 }
 
 //mysql配置
-type ConfMysql map[string]ConfMysqlDb
+type ConfMysql map[string]ConfMysqlItem
 
 //logrus配置
 type ConfLogrus struct {
 	Level           logrus.Level
 	WriteToFilePath string
-}
-
-type ConfMysqlDb struct {
-	Master []ConfMysqlItem
-	Slaver []ConfMysqlItem
 }
 
 type ConfMysqlItem struct {

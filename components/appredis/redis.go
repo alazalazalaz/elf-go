@@ -17,7 +17,7 @@ func New(c *appconfig.Config) *Redis {
 	}
 }
 
-func (r *Redis) Init() error {
+func (r *Redis) TestConnection() error {
 	r.Client = redis.NewClient(r.setOptions())
 
 	if _, err := r.Ping().Result(); err != nil {

@@ -62,7 +62,7 @@ func Error(s string, contentSlice ...Content) {
 
 func Debugf(format string, args ...interface{}) {
 	format = fmt.Sprintf("[%s]", apptraceid.TraceId) + format
-	logrus.Infof(format, args...)
+	logrus.Debugf(format, args...)
 }
 
 func Infof(format string, args ...interface{}) {
@@ -72,10 +72,10 @@ func Infof(format string, args ...interface{}) {
 
 func Warningf(format string, args ...interface{}) {
 	format = fmt.Sprintf("[%s]", apptraceid.TraceId) + format
-	logrus.Infof(format, args...)
+	logrus.Warningf(format, args...)
 }
 
 func Errorf(format string, args ...interface{}) {
 	format = fmt.Sprintf("[%s]", apptraceid.TraceId) + format
-	logrus.Infof(format, args...)
+	logrus.Errorf(format, args...)
 }
