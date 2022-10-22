@@ -9,7 +9,7 @@ import (
 
 func InitRoute(router *gin.Engine) {
 	router.Use(gin.Recovery())
-	router.Use(middleware.Cors, middleware2.PrintReqAndResp, middleware2.TraceId)
+	router.Use(middleware2.TraceId, middleware.Cors, middleware2.PrintReqAndResp)
 
 	router.GET("/", handler.Info)
 	router.GET("/info", handler.Info)
@@ -46,6 +46,7 @@ func InitRoute(router *gin.Engine) {
 	logsController := new(handler.LogsController)
 	logsRouter := router.Group("logs")
 	{
+		logsRouter.GET("slow", logsController.Slow)
 		logsRouter.GET("hook", logsController.Hook)
 	}
 

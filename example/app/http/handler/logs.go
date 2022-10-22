@@ -1,26 +1,32 @@
 package handler
 
 import (
-	"elf-go/components/appconsts"
 	"elf-go/components/apphelper"
 	"elf-go/components/applogs"
 	"elf-go/example/app/http/response"
 	"github.com/gin-gonic/gin"
-	"github.com/sirupsen/logrus"
+	"time"
 )
 
 type LogsController struct{}
 
+func (l *LogsController) Slow(ctx *gin.Context) {
+	applogs.Ctx(ctx).Infof("SlowSlowSlowSlowSlow1")
+	time.Sleep(time.Second * 5)
+	applogs.Ctx(ctx).Infof("SlowSlowSlowSlowSlow2")
+
+	var resp response.Data
+	resp.Code = 200
+	resp.Msg = "Slow"
+	resp.Data = "Slow data"
+
+	apphelper.EchoSuccess(ctx, resp)
+}
+
 func (l *LogsController) Hook(ctx *gin.Context) {
 	applogs.Infof("path: logs/hook")
 
-	logCtx := logrus.WithContext(ctx)
-	con, ok := logCtx.Context.(*gin.Context)
-	traceId := ""
-	if ok {
-		traceId = con.Request.Header.Get(appconsts.HeaderTraceId)
-	}
-	logCtx.Infof("[%s] xxx", traceId)
+	applogs.Ctx(ctx).Infof("hahahha")
 
 	var resp response.Data
 	resp.Code = 200
