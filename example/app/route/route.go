@@ -9,7 +9,7 @@ import (
 
 func InitRoute(router *gin.Engine) {
 	router.Use(gin.Recovery())
-	router.Use(middleware.Cors, middleware2.PrintReqAndResp)
+	router.Use(middleware.Cors, middleware2.PrintReqAndResp, middleware2.TraceId)
 
 	router.GET("/", handler.Info)
 	router.GET("/info", handler.Info)
@@ -41,6 +41,12 @@ func InitRoute(router *gin.Engine) {
 		restfulControllerR.POST("/post", restfulController.Post)
 		restfulControllerR.DELETE("/delete", restfulController.Delete)
 		restfulControllerR.POST("/file", restfulController.File)
+	}
+
+	logsController := new(handler.LogsController)
+	logsRouter := router.Group("logs")
+	{
+		logsRouter.GET("hook", logsController.Hook)
 	}
 
 }

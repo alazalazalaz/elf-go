@@ -24,6 +24,19 @@ func init() {
 
 type Content map[string]interface{}
 
+//type TraceIdHook struct {
+//	Ctx *gin.Context
+//}
+//
+//func (t *TraceIdHook) Levels() []logrus.Level {
+//	return logrus.AllLevels
+//}
+//
+//func (t *TraceIdHook) Fire(entry *logrus.Entry) error {
+//	entry.Data[appconsts.HeaderTraceId] = t.Ctx.Request.Header.Get(appconsts.HeaderTraceId)
+//	return nil
+//}
+
 func SetLevel(l logrus.Level) {
 	logrus.SetLevel(l)
 }

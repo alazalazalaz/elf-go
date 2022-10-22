@@ -39,7 +39,6 @@ func SlowQuery(ctx *gin.Context) {
 	applogs.Infof("result: %v", u)
 
 	apphelper.EchoSuccess(ctx, u)
-
 }
 
 func Version(ctx *gin.Context) {

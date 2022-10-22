@@ -1,6 +1,7 @@
 package apphelper
 
 import (
+	"elf-go/components/appconsts"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -8,38 +9,42 @@ import (
 type ErrorCode int
 
 type responseData struct {
-	Code ErrorCode   `json:"code"`
-	Msg  string      `json:"msg"`
-	Data interface{} `json:"data"`
+	Code    ErrorCode   `json:"code"`
+	Msg     string      `json:"msg"`
+	Data    interface{} `json:"data"`
+	TraceId string      `json:"trace_id"`
 }
 
 const (
 	StatusUnauthorized ErrorCode = 401
 )
 
-func EchoSuccess(c *gin.Context, data interface{}) {
+func EchoSuccess(ctx *gin.Context, data interface{}) {
 	resp := responseData{
-		Code: http.StatusOK,
-		Msg:  "success",
-		Data: data,
+		Code:    http.StatusOK,
+		Msg:     "success",
+		Data:    data,
+		TraceId: ctx.Request.Header.Get(appconsts.HeaderTraceId),
 	}
-	c.JSON(http.StatusOK, resp)
+	ctx.JSON(http.StatusOK, resp)
 }
 
-func EchoFailed(c *gin.Context, errorCode ErrorCode, errorMsg string) {
+func EchoFailed(ctx *gin.Context, errorCode ErrorCode, errorMsg string) {
 	resp := responseData{
-		Code: errorCode,
-		Msg:  errorMsg,
-		Data: nil,
+		Code:    errorCode,
+		Msg:     errorMsg,
+		Data:    nil,
+		TraceId: ctx.Request.Header.Get(appconsts.HeaderTraceId),
 	}
-	c.JSON(http.StatusBadRequest, resp)
+	ctx.JSON(http.StatusBadRequest, resp)
 }
 
-func EchoData(c *gin.Context, httpCode int, errorCode ErrorCode, errorMsg string, data interface{}) {
+func EchoData(ctx *gin.Context, httpCode int, errorCode ErrorCode, errorMsg string, data interface{}) {
 	resp := responseData{
-		Code: errorCode,
-		Msg:  errorMsg,
-		Data: data,
+		Code:    errorCode,
+		Msg:     errorMsg,
+		Data:    data,
+		TraceId: ctx.Request.Header.Get(appconsts.HeaderTraceId),
 	}
-	c.JSON(httpCode, resp)
+	ctx.JSON(httpCode, resp)
 }
