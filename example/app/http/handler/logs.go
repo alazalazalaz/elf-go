@@ -5,6 +5,7 @@ import (
 	"elf-go/components/applogs"
 	"elf-go/example/app/http/response"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 	"time"
 )
 
@@ -24,9 +25,12 @@ func (l *LogsController) Slow(ctx *gin.Context) {
 }
 
 func (l *LogsController) Hook(ctx *gin.Context) {
-	applogs.Infof("path: logs/hook")
-
-	applogs.Ctx(ctx).Infof("hahahha")
+	logrus.WithContext(ctx).Infof("logrus 原生")
+	applogs.Infof("applogs部分集成")
+	applogs.Ctx(ctx).Debugf("ctx集成")
+	applogs.Ctx(ctx).Infof("ctx集成")
+	applogs.Ctx(ctx).Warnf("ctx集成")
+	applogs.Ctx(ctx).Errorf("ctx集成")
 
 	var resp response.Data
 	resp.Code = 200

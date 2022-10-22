@@ -18,6 +18,10 @@ func init() {
 
 	// 设置日志级别为InfoLevel以上，由初始化的时候去设置
 	//logrus.SetLevel(logrus.InfoLevel)
+
+	// 显示行号
+	// 不用官方的这个，太弱鸡了，自行实现，详见logswithcontext.go中的打印方法
+	//logrus.SetReportCaller(true)
 }
 
 type Content map[string]interface{}
