@@ -22,11 +22,11 @@ func Info(ctx *gin.Context) {
 }
 
 func Select(ctx *gin.Context) {
-	applogs.Info("get user info")
+	applogs.Ctx(ctx).Infof("get user info")
 	var u entity.User
 	db := app.Mysql()
 	db.Where("id = ?", 1).Find(&u)
-	applogs.Infof("result: %v", u)
+	applogs.Ctx(ctx).Infof("result: %v", u)
 
 	apphelper.EchoSuccess(ctx, u)
 }
@@ -36,13 +36,13 @@ func SlowQuery(ctx *gin.Context) {
 	db := app.Mysql()
 	db.Where("id = ?", 5).Find(&u)
 	time.Sleep(time.Second * 5)
-	applogs.Infof("result: %v", u)
+	applogs.Ctx(ctx).Infof("result: %v", u)
 
 	apphelper.EchoSuccess(ctx, u)
 }
 
 func Version(ctx *gin.Context) {
-	applogs.Infof("version")
+	applogs.Ctx(ctx).Infof("version")
 	ver := struct {
 		Version string
 	}{Version: "0.0.1"}
@@ -83,7 +83,7 @@ func Save(ctx *gin.Context) {
 }
 
 func Panic(ctx *gin.Context) {
-	applogs.Warningf("即将panic")
+	applogs.Ctx(ctx).Warnf("即将panic")
 	panic("手动panic")
 }
 
@@ -106,7 +106,7 @@ func Sleep(ctx *gin.Context) {
 func Loop(ctx *gin.Context) {
 	go func() {
 		for i := 10; i > 0; i-- {
-			applogs.Infof("loop data i :%v", i)
+			applogs.Ctx(ctx).Infof("loop data i :%v", i)
 			time.Sleep(time.Millisecond * 500)
 		}
 	}()
@@ -115,6 +115,6 @@ func Loop(ctx *gin.Context) {
 }
 
 func Auth(ctx *gin.Context) {
-	applogs.Infof("auth SUCCESS action")
+	applogs.Ctx(ctx).Infof("auth SUCCESS action")
 	apphelper.EchoSuccess(ctx, nil)
 }

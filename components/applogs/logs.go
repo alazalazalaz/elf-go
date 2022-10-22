@@ -83,7 +83,7 @@ func Infof(format string, args ...interface{}) {
 	logrus.Infof(format, args...)
 }
 
-func Warningf(format string, args ...interface{}) {
+func Warnf(format string, args ...interface{}) {
 	logrus.Warningf(format, args...)
 }
 

@@ -12,63 +12,63 @@ type RestfulController struct {
 
 func (*RestfulController) Get(ctx *gin.Context) {
 	method := ctx.Request.Method
-	applogs.Infof("method:%s", method)
+	applogs.Ctx(ctx).Infof("method:%s", method)
 
 	id := ctx.Query("id")
 	name := ctx.Query("name")
 	age := ctx.Query("age")
-	applogs.Infof("id:%v", id)
-	applogs.Infof("name:%v", name)
-	applogs.Infof("age:%v", age)
+	applogs.Ctx(ctx).Infof("id:%v", id)
+	applogs.Ctx(ctx).Infof("name:%v", name)
+	applogs.Ctx(ctx).Infof("age:%v", age)
 
 	apphelper.EchoSuccess(ctx, method+" request")
 }
 
 func (*RestfulController) Post(ctx *gin.Context) {
 	method := ctx.Request.Method
-	applogs.Infof("method:%s", method)
+	applogs.Ctx(ctx).Infof("method:%s", method)
 
 	id := ctx.PostForm("id")
 	name := ctx.PostForm("name")
-	applogs.Infof("id:%v", id)
-	applogs.Infof("name:%v", name)
+	applogs.Ctx(ctx).Infof("id:%v", id)
+	applogs.Ctx(ctx).Infof("name:%v", name)
 
 	apphelper.EchoSuccess(ctx, method+" request")
 }
 
 func (*RestfulController) Put(ctx *gin.Context) {
 	method := ctx.Request.Method
-	applogs.Infof("method:%s", method)
+	applogs.Ctx(ctx).Infof("method:%s", method)
 	apphelper.EchoSuccess(ctx, method+" request")
 }
 
 func (*RestfulController) Delete(ctx *gin.Context) {
 	method := ctx.Request.Method
-	applogs.Infof("method:%s", method)
+	applogs.Ctx(ctx).Infof("method:%s", method)
 	apphelper.EchoSuccess(ctx, method+" request")
 }
 
 func (*RestfulController) File(ctx *gin.Context) {
 	method := ctx.Request.Method
-	applogs.Infof("method:%s", method)
+	applogs.Ctx(ctx).Infof("method:%s", method)
 
 	file, err := ctx.FormFile("file")
 	if err != nil {
-		applogs.Errorf("read file error:%v", err)
+		applogs.Ctx(ctx).Errorf("read file error:%v", err)
 		apphelper.EchoFailed(ctx, enum.RespReadFileError, "")
 		return
 	}
 
 	filename := file.Filename
-	applogs.Infof("%v, %v", filename, err)
+	applogs.Ctx(ctx).Infof("%v, %v", filename, err)
 
 	err = ctx.SaveUploadedFile(file, file.Filename)
 	if err != nil {
-		applogs.Errorf("read file error:%v", err)
+		applogs.Ctx(ctx).Errorf("read file error:%v", err)
 		apphelper.EchoFailed(ctx, enum.RespSystemError, err.Error())
 		return
 	}
 
-	applogs.Infof("read file success")
+	applogs.Ctx(ctx).Infof("read file success")
 	apphelper.EchoSuccess(ctx, method+" request")
 }

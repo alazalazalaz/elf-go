@@ -6,7 +6,7 @@
 // file.xxx()这种方法改为frameworkfile.xxx()包名
 //0. 新增recover异常
 
-//1.新增trace id，有并发问题，需要修改
+//DONE 1.新增trace id，有并发问题，需要修改
 
 //2.新增redis集群
 
