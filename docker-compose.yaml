@@ -6,7 +6,7 @@ services:
     image: alazalaz/elf-go:v1
     container_name: elf-go
     volumes:
-      - ./example/app/config/conf.yml:/config/conf.yml:ro
+      - ./example/app/config/conf-for-docker.yaml:/config/conf.yaml:ro
     network_mode: bridge
     ports:
       - 7070:7070
