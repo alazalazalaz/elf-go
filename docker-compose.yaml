@@ -9,7 +9,7 @@ services:
       - ./example/app/config/conf-for-docker.yaml:/config/conf.yaml:ro
     network_mode: bridge
     ports:
-      - 7070:7070
+      - 7071:7071
     logging:
       driver: json-file
       options:
