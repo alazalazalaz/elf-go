@@ -24,22 +24,24 @@ func Info(ctx *gin.Context) {
 }
 
 func Select(ctx *gin.Context) {
-	applogs.Ctx(ctx).Infof("get user info")
+	logCtx := applogs.GenCtxFromGin(ctx)
+	applogs.Ctx(logCtx).Infof("get user info")
 	var u entity.User
 	db := app.Mysql()
 	db.Where("id = ?", 1).Find(&u)
-	applogs.Ctx(ctx).Infof("result: %v", u)
+	applogs.Ctx(logCtx).Infof("result: %v", u)
 
 	apphelper.EchoSuccess(ctx, u)
 }
 
 func Type(ctx *gin.Context) {
+	logCtx := applogs.GenCtxFromGin(ctx)
 	username := ctx.GetString("username")
 	//password := ctx.GetString("password")
 
 	err := checkUsername(username)
 	if err != nil {
-		applogs.Ctx(ctx).Errorf("check username error: %v", err)
+		applogs.Ctx(logCtx).Errorf("check username error: %v", err)
 		apphelper.EchoFailed(ctx, 1001, err.Error())
 		return
 	}
@@ -56,17 +58,19 @@ func checkUsername(username string) error {
 }
 
 func SlowQuery(ctx *gin.Context) {
+	logCtx := applogs.GenCtxFromGin(ctx)
 	var u entity.User
 	db := app.Mysql()
 	db.Where("id = ?", 5).Find(&u)
 	time.Sleep(time.Second * 5)
-	applogs.Ctx(ctx).Infof("result: %v", u)
+	applogs.Ctx(logCtx).Infof("result: %v", u)
 
 	apphelper.EchoSuccess(ctx, u)
 }
 
 func Version(ctx *gin.Context) {
-	applogs.Ctx(ctx).Infof("version")
+	logCtx := applogs.GenCtxFromGin(ctx)
+	applogs.Ctx(logCtx).Infof("version")
 	ver := struct {
 		Version string
 	}{Version: "0.0.1"}
@@ -107,7 +111,8 @@ func Save(ctx *gin.Context) {
 }
 
 func Panic(ctx *gin.Context) {
-	applogs.Ctx(ctx).Warnf("即将panic")
+	logCtx := applogs.GenCtxFromGin(ctx)
+	applogs.Ctx(logCtx).Warnf("即将panic")
 	panic("手动panic")
 }
 
@@ -128,9 +133,10 @@ func Sleep(ctx *gin.Context) {
 }
 
 func Loop(ctx *gin.Context) {
+	logCtx := applogs.GenCtxFromGin(ctx)
 	go func() {
 		for i := 10; i > 0; i-- {
-			applogs.Ctx(ctx).Infof("loop data i :%v", i)
+			applogs.Ctx(logCtx).Infof("loop data i :%v", i)
 			time.Sleep(time.Millisecond * 500)
 		}
 	}()
@@ -139,6 +145,7 @@ func Loop(ctx *gin.Context) {
 }
 
 func Auth(ctx *gin.Context) {
-	applogs.Ctx(ctx).Infof("auth SUCCESS action")
+	logCtx := applogs.GenCtxFromGin(ctx)
+	applogs.Ctx(logCtx).Infof("auth SUCCESS action")
 	apphelper.EchoSuccess(ctx, nil)
 }

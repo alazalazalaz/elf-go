@@ -10,6 +10,7 @@ import (
 
 //@todo 可以修改PrintReqAndResp为一个方法，把要打印的参数都传递进去。
 func PrintReqAndResp(ctx *gin.Context) {
+	logCtx := applogs.GenCtxFromGin(ctx)
 	startAt := time.Now()
 
 	headerString := ""
@@ -17,7 +18,7 @@ func PrintReqAndResp(ctx *gin.Context) {
 		headerString += fmt.Sprintf("%s:%s; ", headerKey, strings.Join(headerValue, ","))
 	}
 	if err := ctx.Request.ParseForm(); err != nil {
-		applogs.Ctx(ctx).Errorf("PrintReqAndResp=>ParseForm error:%v", err)
+		applogs.Ctx(logCtx).Errorf("PrintReqAndResp=>ParseForm error:%v", err)
 	}
 
 	//bodyString := ""
@@ -28,10 +29,10 @@ func PrintReqAndResp(ctx *gin.Context) {
 	//	bodyString = string(bodyBytes)
 	//}
 
-	applogs.Ctx(ctx).Infof(`[begin]=>Remote Address:%s | Request Method:%s | Request URI:"%s" | Request Headers:%s | Form Data:%s`,
+	applogs.Ctx(logCtx).Infof(`[begin]=>Remote Address:%s | Request Method:%s | Request URI:"%s" | Request Headers:%s | Form Data:%s`,
 		ctx.Request.RemoteAddr, ctx.Request.Method, ctx.Request.RequestURI, headerString, ctx.Request.PostForm.Encode())
 
 	ctx.Next()
 
-	applogs.Ctx(ctx).Infof("[end]=> duration:%s", time.Since(startAt))
+	applogs.Ctx(logCtx).Infof("[end]=> duration:%s", time.Since(startAt))
 }

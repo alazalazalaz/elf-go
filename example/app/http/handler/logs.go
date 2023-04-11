@@ -12,9 +12,10 @@ import (
 type LogsController struct{}
 
 func (l *LogsController) Slow(ctx *gin.Context) {
-	applogs.Ctx(ctx).Infof("SlowSlowSlowSlowSlow1")
+	logCtx := applogs.GenCtxFromGin(ctx)
+	applogs.Ctx(logCtx).Infof("SlowSlowSlowSlowSlow1")
 	time.Sleep(time.Second * 5)
-	applogs.Ctx(ctx).Infof("SlowSlowSlowSlowSlow2")
+	applogs.Ctx(logCtx).Infof("SlowSlowSlowSlowSlow2")
 
 	var resp response.Data
 	resp.Code = 200
@@ -25,12 +26,13 @@ func (l *LogsController) Slow(ctx *gin.Context) {
 }
 
 func (l *LogsController) Hook(ctx *gin.Context) {
+	logCtx := applogs.GenCtxFromGin(ctx)
 	logrus.WithContext(ctx).Infof("logrus 原生")
 	applogs.Infof("applogs部分集成")
-	applogs.Ctx(ctx).Debugf("ctx集成")
-	applogs.Ctx(ctx).Infof("ctx集成")
-	applogs.Ctx(ctx).Warnf("ctx集成")
-	applogs.Ctx(ctx).Errorf("ctx集成")
+	applogs.Ctx(logCtx).Debugf("ctx集成")
+	applogs.Ctx(logCtx).Infof("ctx集成")
+	applogs.Ctx(logCtx).Warnf("ctx集成")
+	applogs.Ctx(logCtx).Errorf("ctx集成")
 
 	var resp response.Data
 	resp.Code = 200
