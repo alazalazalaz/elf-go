@@ -12,6 +12,7 @@ import (
 )
 
 type logWrapper struct {
+	Ctx   Context
 	entry *logrus.Entry
 }
 
@@ -21,6 +22,7 @@ type Context struct {
 	context.Context
 }
 
+// GenCtxFromGin 用于生成一个有gin.Context的Context
 func GenCtxFromGin(ctx *gin.Context) Context {
 	traceId := ctx.Request.Header.Get(appconsts.HeaderTraceId)
 	var spanIds []string
@@ -30,6 +32,7 @@ func GenCtxFromGin(ctx *gin.Context) Context {
 	}
 }
 
+// GenCtxFromNoneGin 用于生成一个没有gin.Context的Context，比如定时任务
 func GenCtxFromNoneGin() Context {
 	return Context{
 		TraceId: uuid.New().String(),
@@ -37,49 +40,57 @@ func GenCtxFromNoneGin() Context {
 	}
 }
 
+// SpanCtx 生成一个新的Context，用于生成一个新的Span
+func SpanCtx(ctx Context) Context {
+	newCtx := Context{
+		TraceId: ctx.TraceId,
+		SpanIds: ctx.SpanIds,
+	}
+	spanId := uuid.New().String()[24:]
+	newCtx.SpanIds = append(newCtx.SpanIds, spanId)
+	return newCtx
+}
+
 func Ctx(ctx Context) *logWrapper {
-	en := logrus.WithContext(ctx)
 	return &logWrapper{
-		entry: en,
+		Ctx:   ctx,
+		entry: defaultEntity,
 	}
 }
 
 func (l *logWrapper) Debugf(format string, args ...interface{}) {
-	traceId, _ := l.getTraceInfoFromContext()
+	traceId, spanIds := l.getTraceInfoFromContext()
 	callerFile, callerLineNum := l.getCallerInfo(2)
 
-	l.entry.Debugf(fmt.Sprintf("[%s:%d][%s] %s", callerFile, callerLineNum, traceId, format), args...)
+	l.entry.Debugf(fmt.Sprintf("[%s:%d][%s][%s] %s", callerFile, callerLineNum, traceId, spanIds, format), args...)
 }
 
 func (l *logWrapper) Infof(format string, args ...interface{}) {
-	traceId, _ := l.getTraceInfoFromContext()
+	traceId, spanIds := l.getTraceInfoFromContext()
 	callerFile, callerLineNum := l.getCallerInfo(2)
 
-	l.entry.Infof(fmt.Sprintf("[%s:%d][%s] %s", callerFile, callerLineNum, traceId, format), args...)
+	l.entry.Infof(fmt.Sprintf("[%s:%d][%s][%s] %s", callerFile, callerLineNum, traceId, spanIds, format), args...)
 }
 
 func (l *logWrapper) Warnf(format string, args ...interface{}) {
-	traceId, _ := l.getTraceInfoFromContext()
+	traceId, spanIds := l.getTraceInfoFromContext()
 	callerFile, callerLineNum := l.getCallerInfo(2)
 
-	l.entry.Warnf(fmt.Sprintf("[%s:%d][%s] %s", callerFile, callerLineNum, traceId, format), args...)
+	l.entry.Warnf(fmt.Sprintf("[%s:%d][%s][%s] %s", callerFile, callerLineNum, traceId, spanIds, format), args...)
 }
 
 func (l *logWrapper) Errorf(format string, args ...interface{}) {
-	traceId, _ := l.getTraceInfoFromContext()
+	traceId, spanIds := l.getTraceInfoFromContext()
 	callerFile, callerLineNum := l.getCallerInfo(2)
 
-	l.entry.Errorf(fmt.Sprintf("[%s:%d][%s] %s", callerFile, callerLineNum, traceId, format), args...)
+	l.entry.Errorf(fmt.Sprintf("[%s:%d][%s][%s] %s", callerFile, callerLineNum, traceId, spanIds, format), args...)
 }
 
 func (l *logWrapper) getTraceInfoFromContext() (string, string) {
-	traceId, spanId := "", ""
-	con, ok := l.entry.Context.(*gin.Context)
-	if ok {
-		traceId = con.Request.Header.Get(appconsts.HeaderTraceId)
-	}
+	traceId, spanIds := l.Ctx.TraceId, ""
+	spanIds = strings.Join(l.Ctx.SpanIds, "-")
 
-	return traceId, spanId
+	return traceId, spanIds
 }
 
 func (l *logWrapper) getCallerInfo(skip int) (string, int) {

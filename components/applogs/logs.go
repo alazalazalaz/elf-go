@@ -5,6 +5,10 @@ import (
 	"os"
 )
 
+var (
+	defaultEntity *logrus.Entry
+)
+
 func init() {
 	// 设置日志格式为json格式
 	customFormatter := new(logrus.TextFormatter)
@@ -22,6 +26,14 @@ func init() {
 	// 显示行号
 	// 不用官方的这个，太弱鸡了，自行实现，详见logswithcontext.go中的打印方法
 	//logrus.SetReportCaller(true)
+
+	defaultEntity = logrus.NewEntry(&logrus.Logger{
+		Out:       os.Stderr,
+		Formatter: customFormatter,
+		Hooks:     make(logrus.LevelHooks),
+		//ReportCaller: true,
+		Level: logrus.DebugLevel,
+	})
 }
 
 type Content map[string]interface{}

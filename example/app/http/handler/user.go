@@ -29,8 +29,28 @@ func Select(ctx *gin.Context) {
 	var u entity.User
 	db := app.Mysql()
 	db.Where("id = ?", 1).Find(&u)
-	applogs.Ctx(logCtx).Infof("result: %v", u)
+	applogs.Ctx(logCtx).Infof("before: %v", u)
+	go func() {
+		time.Sleep(time.Second * 2)
+		newCtx := applogs.SpanCtx(logCtx)
+		applogs.Ctx(newCtx).Infof("goroutine child1: %v", u)
+		time.Sleep(time.Second * 2)
 
+		newCtx2 := applogs.SpanCtx(newCtx)
+		applogs.Ctx(newCtx2).Infof("goroutine child1-1: %v", u)
+	}()
+	go func() {
+
+		newCtx3 := applogs.SpanCtx(logCtx)
+		applogs.Ctx(newCtx3).Infof("goroutine child2: %v", u)
+		time.Sleep(time.Second * 2)
+		newCtx4 := applogs.SpanCtx(newCtx3)
+		applogs.Ctx(newCtx4).Infof("goroutine child2-1: %v", u)
+	}()
+
+	applogs.Ctx(logCtx).Infof("result: %v", u)
+	applogs.Ctx(logCtx).Infof("result: %v", u)
+	applogs.Ctx(logCtx).Infof("result: %v", u)
 	apphelper.EchoSuccess(ctx, u)
 }
 
