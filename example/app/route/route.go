@@ -9,7 +9,7 @@ import (
 
 func InitRoute(router *gin.Engine) {
 	router.Use(gin.Recovery())
-	router.Use(middleware2.TraceId, middleware.Cors, middleware2.PrintReqAndResp)
+	router.Use(middleware2.TraceId, middleware.Cors, middleware2.PrintReqAndResp, middleware2.Limit)
 
 	router.GET("/", handler.Info)
 	router.GET("/info", handler.Info)

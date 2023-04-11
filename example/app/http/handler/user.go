@@ -8,7 +8,9 @@ import (
 	"elf-go/example/app/dao/entity"
 	"elf-go/example/app/enum"
 	"elf-go/example/app/http/response"
+	"errors"
 	"github.com/gin-gonic/gin"
+	"strings"
 	"time"
 )
 
@@ -29,6 +31,28 @@ func Select(ctx *gin.Context) {
 	applogs.Ctx(ctx).Infof("result: %v", u)
 
 	apphelper.EchoSuccess(ctx, u)
+}
+
+func Type(ctx *gin.Context) {
+	username := ctx.GetString("username")
+	//password := ctx.GetString("password")
+
+	err := checkUsername(username)
+	if err != nil {
+		applogs.Ctx(ctx).Errorf("check username error: %v", err)
+		apphelper.EchoFailed(ctx, 1001, err.Error())
+		return
+	}
+
+}
+
+func checkUsername(username string) error {
+	usernameArr := strings.Split(username, "|")
+	if len(usernameArr) != 2 {
+		return errors.New("username error")
+	}
+
+	return nil
 }
 
 func SlowQuery(ctx *gin.Context) {

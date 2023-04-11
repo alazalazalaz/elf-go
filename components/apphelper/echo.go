@@ -16,7 +16,8 @@ type responseData struct {
 }
 
 const (
-	StatusUnauthorized ErrorCode = 401
+	StatusUnauthorized   ErrorCode = 401
+	StatusRequestLimited ErrorCode = 509
 )
 
 func EchoSuccess(ctx *gin.Context, data interface{}) {
