@@ -114,8 +114,15 @@ func Create(ctx *gin.Context) {
 }
 
 func Update(ctx *gin.Context) {
+	logCtx := applogs.GenCtxFromGin(ctx)
 	//update 只更新当前字段
-	app.Mysql().Model(&entity.User{}).Where("id = ?", 1).Update("updated_at", time.Now().Unix())
+	re := app.Mysql().Model(&entity.User{}).Where("id = ?", 1).Update("updatexxd_at", time.Now().Unix())
+	if re.Error != nil {
+		applogs.Ctx(logCtx).Errorf("update error: %v", re.Error)
+		apphelper.EchoFailed(ctx, enum.RespDbError, re.Error.Error())
+		return
+	}
+	applogs.Ctx(logCtx).Infof("update success, row:%v", re.RowsAffected)
 
 	apphelper.EchoSuccess(ctx, nil)
 }
