@@ -9,6 +9,7 @@ import (
 	"elf-go/example/app/enum"
 	"elf-go/example/app/http/response"
 	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"strings"
 	"time"
@@ -19,6 +20,13 @@ func Info(ctx *gin.Context) {
 	resp.Code = 200
 	resp.Msg = "info api"
 	resp.Data = "info data"
+
+	var aaa *applogs.Context
+	if aaa == nil {
+		fmt.Println("aaa is nil")
+	} else {
+		fmt.Println(aaa.TraceId)
+	}
 
 	apphelper.EchoSuccess(ctx, resp)
 }
